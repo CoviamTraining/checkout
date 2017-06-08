@@ -5,6 +5,13 @@ public class OrderDTO {
 	private int productId;
 	private int merchantId;
 	private String productName;
+	private String userEmail;
+	private int orderQuantity;
+	private String orderStatus;
+	private double productPrice;
+	
+	public OrderDTO() {}
+
 	public String getProductName() {
 		return productName;
 	}
@@ -13,13 +20,6 @@ public class OrderDTO {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-
-	private String userEmail;
-	private int orderQuantity;
-	private String orderStatus;
-	private double productPrice;
-	
-	public OrderDTO() {}
 
 	
 	public int getProductId() {

@@ -74,12 +74,12 @@ public class CheckoutController {
 		for( int i=0; i<list.size();i++){
 			System.out.println(list.get(i));
 		}
-		//String flag=checkout.ifProductAvailable(list);
-		if(true){
+		String flag=checkout.ifProductAvailable(list);
+		if(flag.equals("Success")){
 			String placeorder="placeorder:"+list;
 			String uri = paths.getOrder()+"/placeorder";
 			
-			System.out.println("JSON" + placeorder);
+			//System.out.println("JSON" + placeorder);
 			//OrderListDTO orderListObject = new OrderListDTO(list);
 			RestTemplate restTemplate = new RestTemplate();
 			String result =  restTemplate.postForObject(uri, list, String.class);
@@ -89,12 +89,12 @@ public class CheckoutController {
 						
 				 }
 				
-				 return "Order Placed Successfully";
+				 return "Success";
 			 }
 			//order place
 			
 		}
-			return "Something went wrong";
+			return flag;
 		}
 //	 private List<OrderDTO> getOrderDTOFromJson(final List<OrderDTO> jsonOrderDTO)
 //			 throws IOException {

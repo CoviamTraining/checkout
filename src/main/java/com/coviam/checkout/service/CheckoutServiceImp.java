@@ -23,12 +23,25 @@ public class CheckoutServiceImp implements CheckoutService{
         this.paths = paths;
     }
 	public String ifProductAvailable(List<OrderDTO> cart){
-				
-		for( OrderDTO crt : cart){
-			 String uri = paths.getInventory() +"/getstock/"+crt.getProductId()+"/"+crt.getMerchantId(); 
-			 int stock = restTemplate.getForObject(uri, Integer.class);
-			 if(stock<=0){
-				 return "The Product "+ crt.getProductId() + "is not available";
+		int size = cart.size();			
+		for( int i = 0;i<size;i++){
+			 OrderDTO crt = cart.get(i);
+			 String uri = paths.getInventory() +"/validateOrder/"+crt.getProductId()+"/"+crt.getMerchantId()+"/"+crt.getOrderQuantity(); 
+			 String response = restTemplate.getForObject(uri, String.class);
+			 System.out.println("response is :" + response);
+			 if(response.equals("Not Success")){
+				 System.out.println("Order out of stock");
+				 System.out.println("outside"+i);
+				 for (int j=0;j<i;j++){
+					 System.out.println("inside"+i);
+					 OrderDTO toRollBack = cart.get(j);
+					 String rollbacUuri = paths.getInventory() +"/rollbackUpdatedStockAndSoldUpdate/"
+				 +toRollBack.getProductId()+"/"+toRollBack.getMerchantId()+"/"+toRollBack.getOrderQuantity();
+					 
+					 String responseRollback=restTemplate.getForObject(rollbacUuri, String.class);
+			     System.out.println(responseRollback+ " "+crt.getProductId());
+				 }
+				 return "The Product "+ crt.getProductName() + "is not available";
 			 }
 			
 		}
